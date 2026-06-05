@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나란히 (Naran-hi) - 교육 격차 없는 평등한 스터디</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Material Symbols/Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="app">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo">
+          <h1>Naran-hi</h1>
+        </div>
+        
+        <div class="user-greeting">
+          <!-- Shown in timer view in the design, but let's keep it clean -->
+          <!-- We can add it dynamically if needed -->
+        </div>
+        
+        <nav class="side-nav">
+          <!-- We can use icons from material symbols -->
+          <a href="#" class="nav-item" onclick="app.switchView('lectures', this)">
+            <span class="material-symbols-outlined">school</span>
+            <span>AI와 나란히</span>
+          </a>
+          <a href="#" class="nav-item active" onclick="app.switchView('timer', this)">
+            <span class="material-symbols-outlined">timer</span>
+            <span>함께 나란히</span>
+          </a>
+          <a href="#" class="nav-item" onclick="app.switchView('qa', this)">
+            <span class="material-symbols-outlined">psychology</span>
+            <span>미래와 나란히</span>
+          </a>
+        </nav>
+      </div>
+      
+      <div class="sidebar-bottom">
+        <button class="btn-start-studying" onclick="app.switchView('timer', document.querySelector('.side-nav .nav-item:nth-child(2)'))">
+          <span class="material-symbols-outlined">play_arrow</span>
+          Start Studying
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      
+      <!-- Top Navigation -->
+      <header class="top-nav">
+        <nav class="top-links">
+          <a href="#" class="top-link active" onclick="app.switchView('dashboard', this, true)">Dashboard</a>
+          <a href="#" class="top-link" onclick="app.switchView('lectures', this, true)">AI와 나란히</a>
+          <a href="#" class="top-link" onclick="app.switchView('timer', this, true)">함께 나란히</a>
+          <a href="#" class="top-link" onclick="app.switchView('community', this, true)">Community</a>
+        </nav>
+        
+        <div class="top-actions">
+          <!-- Search is visible on Lectures view -->
+          <div class="search-box hidden" id="top-search">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" placeholder="강의 또는 과목 검색...">
+          </div>
+          <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
+          <button class="icon-btn"><span class="material-symbols-outlined">notifications</span></button>
+          <button class="icon-btn"><span class="material-symbols-outlined">settings</span></button>
+          <div class="profile-avatar">
+            <img src="https://i.pravatar.cc/150?img=68" alt="Profile">
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <main class="content-area">
+        
+        <!-- ============================================== -->
+        <!-- VIEW: DASHBOARD (Image 1)                      -->
+        <!-- ============================================== -->
+        <section id="view-dashboard" class="view active">
+          <div class="view-header">
+            <h2>안녕하세요, 지민님!</h2>
+            <p>AI와 나란히, 오늘도 당신의 성장을 응원합니다.</p>
+          </div>
+          
+          <div class="dashboard-grid">
+            
+            <!-- Left Column -->
+            <div class="dash-col-left">
+              <!-- 오늘의 학습 달성도 -->
+              <div class="card card-progress">
+                <div class="card-header-flex">
+                  <h3>오늘의 학습 달성도</h3>
+                  <span class="progress-percent-text">75% 완료</span>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 75%;"></div>
+                </div>
+                
+                <div class="stats-grid">
+                  <div class="stat-box">
+                    <span class="stat-label">집중 시간</span>
+                    <span class="stat-value">4h 20m</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-label">완료 과제</span>
+                    <span class="stat-value">6/8</span>
+                  </div>
+                  <div class="stat-box highlight-yellow">
+                    <span class="stat-label">단어 암기</span>
+                    <span class="stat-value">45</span>
+                  </div>
+                  <div class="stat-box highlight-gray">
+                    <span class="stat-label">현재 순위</span>
+                    <span class="stat-value">Top 12%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Widgets Row -->
+              <div class="widgets-row">
+                <!-- 수강 중인 강의 -->
+                <div class="card card-lectures widget-box">
+                  <div class="card-header-flex">
+                    <h3>수강 중인 강의 <span class="sub-title">(AI와 나란히)</span></h3>
+                    <a href="#" class="view-all">전체보기 &gt;</a>
+                  </div>
+                  <div class="lecture-list-sm">
+                    <div class="lecture-item-sm">
+                      <div class="lecture-img thumb-1"></div>
+                      <div class="lecture-info">
+                        <span class="subject">수능특강</span>
+                        <h4>수학 I - 지수함수와 로그함수</h4>
+                        <div class="mini-progress">
+                          <div class="mini-fill" style="width: 40%;"></div>
+                          <span class="mini-text">12/30 강</span>
+                        </div>
+                      </div>
+                      <button class="play-circle-btn"><span class="material-symbols-outlined">play_arrow</span></button>
+                    </div>
+                    
+                    <div class="lecture-item-sm">
+                      <div class="lecture-img thumb-2"></div>
+                      <div class="lecture-info">
+                        <span class="subject">수능완성</span>
+                        <h4>영어 - 빈칸 추론 실전 연습</h4>
+                        <div class="mini-progress">
+                          <div class="mini-fill" style="width: 88%;"></div>
+                          <span class="mini-text">22/25 강</span>
+                        </div>
+                      </div>
+                      <button class="play-circle-btn"><span class="material-symbols-outlined">play_arrow</span></button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 플래너 -->
+                <div class="card card-planner widget-box">
+                  <div class="card-header-flex">
+                    <h3>함께 나란히 <span class="sub-title">(플래너)</span></h3>
+                    <div class="planner-actions">
+                      <span class="material-symbols-outlined">sentiment_satisfied</span>
+                      <span class="material-symbols-outlined">add_circle</span>
+                    </div>
+                  </div>
+                  <ul class="planner-list">
+                    <li class="completed">
+                      <label>
+                        <input type="checkbox" checked>
+                        <span class="custom-checkbox"></span>
+                        <div class="task-info">
+                          <span class="task-name">국어 기출 오답노트 정리</span>
+                          <span class="task-time">오전 10:00</span>
+                        </div>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="checkbox">
+                        <span class="custom-checkbox"></span>
+                        <div class="task-info">
+                          <span class="task-name">영단어 100개 테스트</span>
+                          <span class="task-time">오후 2:00</span>
+                        </div>
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="checkbox">
+                        <span class="custom-checkbox"></span>
+                        <div class="task-info">
+                          <span class="task-name">탐구 영역 1단원 개념 복습</span>
+                          <span class="task-time">오후 4:30</span>
+                        </div>
+                      </label>
+                    </li>
+                  </ul>
+                  <div class="diary-input">
+                    <span class="diary-label">오늘의 한 줄 일기</span>
+                    <input type="text" value="&quot;오늘은 집중력이 좋았다. 내일도 이 리듬을 유지하자.&quot;" readonly class="diary-field">
+                  </div>
+                </div>
+              </div>
+
+              <!-- 미래와 나란히 (진로 피드백) -->
+              <div class="card card-feedback">
+                <div class="feedback-icon">
+                  <span class="material-symbols-outlined">psychology</span>
+                </div>
+                <div class="feedback-content">
+                  <h3>미래와 나란히 (진로 피드백)</h3>
+                  <p>현재 학습 패턴을 분석한 결과, 공학 계열 적성이 15% 상승했습니다. AI와 나란히 새로운 추천 학과를 확인해보세요.</p>
+                  <button class="btn-report">리포트 상세보기</button>
+                </div>
+                <button class="btn-floating-add"><span class="material-symbols-outlined">add</span></button>
+              </div>
+
+            </div>
+            
+            <!-- Right Column -->
+            <div class="dash-col-right">
+              <div class="card card-quote">
+                <span class="quote-mark">"</span>
+                <p>"어제보다 한 걸음 더 나아간 당신의 오늘을 기록하세요. 작은 성장이 모여 큰 바다를 이룹니다."</p>
+                <span class="quote-author">— AI와 나란히</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW: TIMER / 함께 나란히 (Image 2)            -->
+        <!-- ============================================== -->
+        <section id="view-timer" class="view hidden">
+          <div class="view-header">
+            <h2>함께 나란히</h2>
+            <p>Study together with the community.</p>
+          </div>
+          
+          <div class="timer-layout">
+            <!-- Left: Planner -->
+            <div class="timer-planner-col">
+              <div class="card h-full">
+                <div class="card-header-flex">
+                  <div class="flex-align">
+                    <span class="material-symbols-outlined mr-2">checklist</span>
+                    <h3>Daily Planner</h3>
+                  </div>
+                  <button class="icon-btn-small"><span class="material-symbols-outlined">add</span></button>
+                </div>
+                
+                <ul class="daily-planner-list mt-4">
+                  <li class="planner-card checked">
+                    <label>
+                      <input type="checkbox" checked>
+                      <span class="custom-checkbox"></span>
+                      <div class="task-details">
+                        <span class="task-title">EBS 수능특강 문학</span>
+                        <span class="task-desc">p.45~52 복습</span>
+                        <span class="badge badge-study">Study</span>
+                      </div>
+                    </label>
+                  </li>
+                  <li class="planner-card checked">
+                    <label>
+                      <input type="checkbox" checked>
+                      <span class="custom-checkbox"></span>
+                      <div class="task-details">
+                        <span class="task-title">휴식 및 산책</span>
+                        <span class="task-desc">10분</span>
+                        <span class="badge badge-rest">Self-care</span>
+                      </div>
+                    </label>
+                  </li>
+                  <li class="planner-card">
+                    <label>
+                      <input type="checkbox">
+                      <span class="custom-checkbox"></span>
+                      <div class="task-details">
+                        <span class="task-title">수학 기출 50문제 풀이</span>
+                        <span class="task-desc">오답노트</span>
+                        <span class="badge badge-study">Study</span>
+                      </div>
+                    </label>
+                  </li>
+                  <li class="planner-card">
+                    <label>
+                      <input type="checkbox">
+                      <span class="custom-checkbox"></span>
+                      <div class="task-details">
+                        <span class="task-title">영단어 암기</span>
+                        <span class="task-desc">3일차</span>
+                      </div>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Right: Timer & Timetable -->
+            <div class="timer-main-col">
+              <!-- Concentration Mode -->
+              <div class="card pomo-card">
+                <div class="card-header-flex">
+                  <h3>Concentration Mode</h3>
+                  <span class="material-symbols-outlined">timer</span>
+                </div>
+                
+                <div class="timer-circle-container">
+                  <svg class="progress-ring" width="300" height="300">
+                    <circle class="progress-ring__circle-bg" stroke="#f0f0f5" stroke-width="8" fill="transparent" r="140" cx="150" cy="150"/>
+                    <circle class="progress-ring__circle" stroke="#D1D5F8" stroke-width="8" fill="transparent" r="140" cx="150" cy="150" stroke-dasharray="879.6" stroke-dashoffset="0" stroke-linecap="round"/>
+                  </svg>
+                  <div class="timer-display">
+                    <span id="pomo-time">25:00</span>
+                    <span class="pomo-label">POMO SESSION</span>
+                  </div>
+                </div>
+                
+                <div class="timer-controls-big">
+                  <button class="ctrl-btn reset"><span class="material-symbols-outlined">refresh</span></button>
+                  <button class="ctrl-btn play" id="btn-play-pause"><span class="material-symbols-outlined">play_arrow</span></button>
+                  <button class="ctrl-btn skip"><span class="material-symbols-outlined">skip_next</span></button>
+                </div>
+              </div>
+
+              <!-- Timetable -->
+              <div class="card timetable-card mt-4">
+                <div class="card-header-flex">
+                  <div class="flex-align">
+                    <h3>Timetable</h3>
+                    <span class="timetable-desc ml-2">(Visual Block)</span>
+                  </div>
+                  <div class="view-toggles">
+                    <button class="toggle-btn">Week View</button>
+                    <button class="toggle-btn active">Today</button>
+                  </div>
+                </div>
+                
+                <div class="timeline-blocks mt-4">
+                  <!-- Block 1 -->
+                  <div class="time-block color-purple">
+                    <span class="block-time">09:00 - 11:30</span>
+                    <span class="block-title">수학 기출 1회독</span>
+                    <span class="material-symbols-outlined block-icon">menu_book</span>
+                  </div>
+                  <!-- Block 2 -->
+                  <div class="time-block color-yellow">
+                    <span class="block-time">12:00</span>
+                    <span class="block-title">Lunch</span>
+                  </div>
+                  <!-- Block 3 -->
+                  <div class="time-block color-blue">
+                    <span class="block-time">13:30 - 16:00</span>
+                    <span class="block-title">EBS 국어 특강</span>
+                    <div class="avatars-mini">
+                      <img src="https://i.pravatar.cc/150?img=32" alt="A">
+                      <img src="https://i.pravatar.cc/150?img=12" alt="B">
+                    </div>
+                  </div>
+                  <!-- Block 4 -->
+                  <div class="time-block color-outline current-block">
+                    <span class="current-badge">CURRENT</span>
+                    <span class="block-time">16:30 - 18:00</span>
+                    <span class="block-title">영어 모의고사 풀이</span>
+                  </div>
+                  <!-- Add Block -->
+                  <div class="time-block block-add">
+                    <span class="material-symbols-outlined">add_circle</span>
+                  </div>
+                  
+                  <!-- Floating Edit Button -->
+                  <button class="btn-floating-edit"><span class="material-symbols-outlined">edit</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW: LECTURES / AI와 나란히 (Image 3, 4)      -->
+        <!-- ============================================== -->
+        <section id="view-lectures" class="view hidden">
+          
+          <div class="lectures-header-row">
+            <div class="lectures-title-area">
+              <h2>AI와 나란히</h2>
+              <p>인공지능과 함께하는 맞춤형 EBS 학습으로 목표에 한 걸음 더 가까워지세요.</p>
+            </div>
+            <div class="search-box-large">
+              <span class="material-symbols-outlined">search</span>
+              <input type="text" placeholder="강의 또는 과목 검색...">
+            </div>
+          </div>
+
+          <!-- Subject Tabs -->
+          <div class="subject-tabs">
+            <button class="subj-tab active">전체 강의</button>
+            <button class="subj-tab">국어</button>
+            <button class="subj-tab">수학</button>
+            <button class="subj-tab">영어</button>
+            <button class="subj-tab">사회/과학</button>
+            <button class="subj-tab">수능 특강</button>
+          </div>
+
+          <div class="lectures-grid">
+            
+            <!-- Featured Lecture -->
+            <div class="card featured-lecture">
+              <div class="featured-bg-icon">
+                <span class="material-symbols-outlined">menu_book</span>
+              </div>
+              <div class="featured-content">
+                <div class="badges">
+                  <span class="badge badge-purple">수능 대비</span>
+                  <span class="badge badge-yellow">AI 추천</span>
+                </div>
+                <h1 class="featured-title">2025 수능특강 국어<br>문학 필수 특강</h1>
+                <div class="featured-meta">
+                  <span><span class="material-symbols-outlined">person</span> EBS 김주리 강사</span>
+                  <span><span class="material-symbols-outlined">schedule</span> 45분 / 24강</span>
+                </div>
+                <div class="featured-footer">
+                  <button class="btn-resume">강의 이어보기</button>
+                  <div class="students-watching">
+                    <div class="avatars-stack">
+                      <img src="https://i.pravatar.cc/150?img=11" alt="S1">
+                      <img src="https://i.pravatar.cc/150?img=47" alt="S2">
+                      <span class="more-students">+1.2k</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stats Panel -->
+            <div class="card stats-panel-yellow">
+              <h3>학습 성취도</h3>
+              <div class="weekly-goal">
+                <div class="goal-text">
+                  <span>이번 주 목표 (15시간)</span>
+                  <span class="goal-percent">82%</span>
+                </div>
+                <div class="progress-bar-wrap bg-dark-alpha">
+                  <div class="progress-bar-fill bg-dark" style="width: 82%;"></div>
+                </div>
+              </div>
+              
+              <div class="stats-boxes-row">
+                <div class="stat-box-light">
+                  <span class="stat-number">12</span>
+                  <span class="stat-desc">완료 강좌</span>
+                </div>
+                <div class="stat-box-light">
+                  <span class="stat-number">845</span>
+                  <span class="stat-desc">학습 포인트</span>
+                </div>
+              </div>
+              
+              <button class="btn-full-white mt-4">상세 레포트 보기</button>
+            </div>
+            
+          </div>
+
+          <!-- Subject Cards Row -->
+          <div class="subject-cards-row mt-4">
+            <!-- Math -->
+            <div class="card subj-card">
+              <div class="subj-img img-math"></div>
+              <div class="subj-content">
+                <div class="subj-header">
+                  <h3>수학 영역</h3>
+                  <span class="material-symbols-outlined check-icon done">check_circle</span>
+                </div>
+                <p>미적분 핵심 정리 및 기출</p>
+                <div class="subj-progress mt-3">
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill bg-gray" style="width: 100%;"></div>
+                  </div>
+                  <span class="progress-text fw-bold">학습 완료</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- English -->
+            <div class="card subj-card">
+              <div class="subj-img img-english"></div>
+              <div class="subj-content">
+                <div class="subj-header">
+                  <h3>영어 영역</h3>
+                  <span class="material-symbols-outlined check-icon">radio_button_unchecked</span>
+                </div>
+                <p>수능 특강 영어 독해 연습</p>
+                <div class="subj-progress mt-3">
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill bg-gray" style="width: 45%;"></div>
+                  </div>
+                  <span class="progress-text">45% 진행 중</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Science -->
+            <div class="card subj-card">
+              <div class="subj-img img-science"></div>
+              <div class="subj-content">
+                <div class="subj-header">
+                  <h3>과학 영역</h3>
+                  <span class="material-symbols-outlined check-icon">radio_button_unchecked</span>
+                </div>
+                <p>생명과학 I 유전 고난도 정복</p>
+                <div class="subj-progress mt-3">
+                  <div class="progress-bar-wrap">
+                    <div class="progress-bar-fill bg-gray" style="width: 12%;"></div>
+                  </div>
+                  <span class="progress-text">12% 진행 중</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
